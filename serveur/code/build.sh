@@ -1,5 +1,5 @@
 cd C
-gcc -o getAllNote getAllNoteUE.c
-gcc -o notes notes.C
+sudo gcc -o getAllNote getAllNoteUE.c
+sudo gcc -o notes notes.C
 cd ..
-node routePug.js
+sudo node routePug.js
