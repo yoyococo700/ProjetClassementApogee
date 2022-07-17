@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+"pdfminer.six" = "*"
+tk = "*"
+ghostscript = "*"
+camelot-py = {extras = ["cv"], version = "*"}
+pycryptodome = "*"
+aspose-words = "*"
+pdfkit = "*"
+pdfquery = "*"
+pdftotree = "*"
+bs4 = "*"
+tabula-py = "*"
+pysqlite3 = "*"
+pypdf2 = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"

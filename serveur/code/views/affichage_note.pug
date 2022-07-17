@@ -1,0 +1,110 @@
+doctype html
+head
+  title ClassementUPMC
+  style.
+    *,
+    html {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    }
+    html {
+    width: 100%;
+    height: 100%;
+    }
+    body {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: rgb(236, 152, 42);
+    }
+    .center {
+    width: 100%;
+    height: 50%;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    text-align: center;
+    }
+    .centerTab{
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    width: 90%;
+    border-collapse: collapse;
+    }
+    .cell{
+    border: 5px solid white;
+    border-collapse: collapse;  
+    }
+    .cell2{
+    border: 2px solid white;  
+    border-collapse: collapse;
+    }
+    h1 {
+    font-size: 144px;
+    }
+    p {
+    font-size: 64px;
+    }
+    .btn {
+    border: 2px solid black;
+    background-color: white;
+    color: black;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    }
+    .success {
+    border-color: #04AA6D;
+    color: green;
+    }
+
+script.
+  function CreateTableFromJSON() {
+  myBooks = !{essaiJson} ;
+  // EXTRACT VALUE FOR HTML HEADER.
+  // ('Book ID', 'Book Name', 'Category' and 'Price')
+  var col = [];
+  for (var i = 0; i < myBooks.length; i++) {
+  for (var key in myBooks[i]) {
+  if (col.indexOf(key) === -1) {
+  col.push(key);
+  }
+  }
+  }
+  // CREATE DYNAMIC TABLE.
+  var table = document.createElement("table");
+  table.classList.add("centerTab");
+  // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+  var tr = table.insertRow(-1);                   // TABLE ROW.
+  for (var i = 0; i < col.length; i++) {
+  var th = document.createElement("th");
+  th.classList.add("cell");      // TABLE HEADER.
+  th.innerHTML = col[i];
+  tr.appendChild(th);
+  }
+  // ADD JSON DATA TO THE TABLE AS ROWS.
+  for (var i = 0; i < myBooks.length; i++) {
+  tr = table.insertRow(-1);
+  for (var j = 0; j < col.length; j++) {
+  var tabCell = tr.insertCell(-1);
+  tabCell.innerHTML = myBooks[i][col[j]];
+  tabCell.classList.add("cell2");
+  }
+  }
+  // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+  var divContainer = document.getElementById("showData");
+  divContainer.innerHTML = "";
+  divContainer.appendChild(table);
+  }
+.center
+  input(type='button' class="btn success" onclick='CreateTableFromJSON()' value='Vos resultats!')
+  p#showData

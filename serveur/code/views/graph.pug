@@ -1,0 +1,64 @@
+doctype html
+head
+  // Required meta tags
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Chart.js Filled Line Chart
+  // Chart.js JS CDN
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js')
+  script(type='text/javascript' src='public/utils.js')
+style.
+  body {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: rgb(41, 41, 122);
+  }
+  #chart-wrapper {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  text-align: center
+  }
+  h1 {
+    font-size: 80px;
+    color : orange
+  }
+  .center {
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+  text-align : center;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  }
+  .container {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  padding: 1%;
+  }
+  .cell{
+    border: 2px solid orange;
+    color : orange
+  }
+  .cell2{
+    border: 1px solid orange;
+    color : #3AC6F5
+  }
+
+#header(class = "center")
+  h1 Vos resultats!
+#chart-wrapper
+  
+
+script.
+  var graphData = !{graphData};
+  var notes = !{notes};
+  for (let i =0; i<notes.length ; i++){
+  drawGraph(graphData[i],notes);
+  CreateTableFromJSON(graphData[i],notes)
+  }
+
+
+  
