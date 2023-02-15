@@ -3,7 +3,7 @@ head
   // Required meta tags
   meta(charset='utf-8')
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
-  title Chart.js Filled Line Chart
+  title Affichage notes personnelles
   // Chart.js JS CDN
   script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js')
   script(type='text/javascript' src='public/utils.js')
@@ -49,15 +49,17 @@ style.
 
 #header(class = "center")
   h1 Vos resultats!
+
 #chart-wrapper
   
 
 script.
   var graphData = !{graphData};
   var notes = !{notes};
+  phraseHaut(!{classement_data},!{nb_etudiant})
   for (let i =0; i<notes.length ; i++){
   drawGraph(graphData[i],notes);
-  CreateTableFromJSON(graphData[i],notes)
+  CreateTableFromJSON(graphData[i],notes);
   }
 
 

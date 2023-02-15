@@ -1,0 +1,177 @@
+doctype html
+head
+  // Required meta tags
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Affichage notes
+  // Chart.js JS CDN
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js')
+  script(type='text/javascript' src='public/utils.js')
+style.
+  html {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  }
+  html {
+  height: 100%;
+  }
+  body {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: block;
+  background-color: rgb(41, 41, 122);
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  }
+
+  .styled-table {
+  border-collapse: collapse;
+  margin: auto;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+  }
+  .styled-table thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
+  }
+  .styled-table th,
+  .styled-table td {
+    padding: 12px 15px;
+  }
+  .styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+  }
+
+  .styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+  }
+
+  .styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+  }
+
+  .styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: #009879;
+  }
+
+  
+  /* Style tab links */
+  .tablink {
+  background-color: #555;
+  color: white;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-size: 17px;
+  width: 50%;
+  }
+  .tablink:hover {
+  background-color: #777;
+  }
+  .header-div{
+  width: 100%;
+  margin: 0;
+  }
+
+  .center {
+  width: 100%;
+  height: 15%;
+  margin-top: 10%;
+  position: relative;
+  color: white;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  text-align: center;
+  }
+  
+  .leaderboard_wrapper_style{
+  width: 100%;
+  }
+
+  /* Style the buttons that are used to open and close the accordion panel */
+  .accordion {
+  background-color: #eee;
+  display: block;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  padding-right: 0px;
+  text-align: center;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+  font-size: x-large;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  }
+  /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+  .active, .accordion:hover {
+  background-color: #ccc;
+  }
+  /* Style the accordion panel. Note: hidden by default */
+  .panel {
+  background-color: white;
+  display: none;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  }
+  .panel-general {
+  background-color: white;
+  display: block;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  }
+  .accordion:after {
+  content: '\02795'; /* Unicode character for "plus" sign (+) */
+  font-size: 13px;
+  color: #777;
+  float: right;
+  margin-left: 5px;
+  }
+  .active:after {
+  content: "\2796"; /* Unicode character for "minus" sign (-) */
+  }
+
+
+#Header.header-div
+  button.tablink(onclick="location.href='../'") Vos notes
+  button.tablink(onclick="location.href='../leaderboard'") Leaderboard
+
+#header.center
+  h1 Leaderboard de la promo de Meca 2021!
+  h2 Leaderboard général
+#leaderboard-general.leaderboard_wrapper_style
+
+
+
+#leaderboard-wrapper.leaderboard_wrapper_style
+
+
+script.
+  var rep = !{data};
+  
+  CreateGeneralLeaderboard(!{general_leaderboard_data});
+  for (let i =0; i<rep.length ; i++){
+  CreateLeaderboardFromJSON(rep[i]);
+  }
+  accordeon();
+
+  
+
+
+
+
+  

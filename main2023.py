@@ -1,11 +1,11 @@
 import tabula
-import pandas 
+
 from PyPDF2 import PdfReader
 import os
-import etudiant
+
 
 import sqlite3
-con = sqlite3.connect('Students.db')
+con = sqlite3.connect('Students2023_new.db')
 cur = con.cursor()
 
 
@@ -14,7 +14,7 @@ def clearNoteData(cur):
     cur.execute("DROP TABLE IF EXISTS jury")
 
 def createTableJury(cur):
-    cur.execute("CREATE TABLE IF NOT EXISTS jury(UE, numero_etudiant NOT NULL , session1 ,session2,ECTS)")
+    cur.execute("CREATE TABLE IF NOT EXISTS jury(UE, numero_etudiant NOT NULL , session1 DECIMAL (10,2),session2,ECTS)")
 
 def clearEtuData(cur):
     cur.execute("DELETE FROM etudiant WHERE TRUE")
@@ -87,40 +87,36 @@ def appendNoteToDb(df,cur,UE:str):
                 text=(i.loc[j][[1,2]].to_string())
                 num_etu = pickNumEtudiant(i.loc[j][0])
                 note = pickNote(text)
-                liste.append((UE,num_etu,note," ",ECTS))
+                if num_etu.find("min\rnote")==-1:
+                    liste.append((UE,num_etu,note," ",ECTS))
 
             except:
                 print("break")
                 break
             else:
                 j=j+1
-        #print(liste)
+        print(liste)
         cur.executemany(sql,liste)
 
 
+df = tabula.read_pdf("resultatsS52022/",lattice=True,pages = "all")
 
 
-clearNoteData(cur)
-createTableJury(cur)
-clearEtuData(cur)
-
-listedir = os.listdir("resultatsS2")
-for i in listedir:   
-    nom_pdf = "resultatsS2/%s"%i
-    df = tabula.read_pdf(nom_pdf,lattice=True,pages = "all")
-    UE = pickUE(nom_pdf)
-    appendNoteToDb(df,cur,UE)
-    appendNumEtuToDb(df,cur)
-
-listedir = os.listdir("resultatsS1")
-for i in listedir:   
-    nom_pdf = "resultatsS1/%s"%i
-    #print(nom_pdf)
-    df = tabula.read_pdf(nom_pdf,lattice=True,pages = "all")
-    UE = pickUE(nom_pdf)
-    appendNoteToDb(df,cur,UE)
-    appendNumEtuToDb(df,cur)
 
 
-con.commit()
-con.close()
+# clearNoteData(cur)
+# createTableJury(cur)
+# clearEtuData(cur)
+
+# listedir = os.listdir("resultatsS52022")
+# for i in listedir:   
+#     nom_pdf = "resultatsS52022/%s"%i
+#     df = tabula.read_pdf(nom_pdf,lattice=True,pages = "all")
+#     UE = pickUE(nom_pdf)
+#     appendNoteToDb(df,cur,UE)
+#     appendNumEtuToDb(df,cur)
+
+
+
+# con.commit()
+# con.close()
