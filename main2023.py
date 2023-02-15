@@ -1,11 +1,11 @@
 import tabula
-import pandas 
+
 from PyPDF2 import PdfReader
 import os
 import etudiant
 
 import sqlite3
-con = sqlite3.connect('Students.db')
+con = sqlite3.connect('Students2023.db')
 cur = con.cursor()
 
 
@@ -50,15 +50,11 @@ def pickECTS(df):
 def pickNote(text:str):
     espace = "              "
     nb = text.rfind(espace)
-    nb2 = text.find("\\rAdo") 
-    base = float(text[nb2+8:nb2+11])
     if nb!=-1:
         selection = text[nb+len(espace):]
         nb = selection.find("\\r")
         #print(selection[:nb])
-        note = float(selection[:nb])*100.0/base
-        print(note)
-        return str(note)
+        return selection[:nb]
 
 def pickNumEtudiant(df):
     #print(df[14:])
@@ -79,57 +75,43 @@ def appendNumEtuToDb(df,cur):
         cur.executemany(sql,getNumEtudiant(dict))
 
 def appendNoteToDb(df,cur,UE:str):
-    sql = "UPDATE jury SET session2 = ? WHERE UE = ? AND numero_etudiant = ?"
-    #sql = "INSERT OR REPLACE INTO jury(UE,numero_etudiant,session2,ECTS) VALUES(?, ?, ?, ?)"
+    sql = "INSERT OR REPLACE INTO jury(UE,numero_etudiant,session1,session2,ECTS) VALUES(?, ?, ?, ?, ?)"
     liste = []
     liste_etu = []
     ECTS = pickECTS(df)
     for i in df:
         j=0
         liste.clear()
-        text=(i.loc[j][[1,2]].to_string())
-        
         while (True):
             try:
                 text=(i.loc[j][[1,2]].to_string())
                 num_etu = pickNumEtudiant(i.loc[j][0])
-                # note = pickNote(text)
                 note = pickNote(text)
-                print((note,UE,num_etu))
                 if num_etu.find("min\rnote")==-1:
-                    liste.append((note,UE,num_etu))
-                
+                    liste.append((UE,num_etu,note," ",ECTS))
 
             except:
                 print("break")
                 break
             else:
                 j=j+1
-        #print(liste)
+        print(liste)
         cur.executemany(sql,liste)
 
 
 
 
-# clearNoteData(cur)
-# createTableJury(cur)
-# clearEtuData(cur)
+clearNoteData(cur)
+createTableJury(cur)
+clearEtuData(cur)
 
-listedir = os.listdir("resultatsSession2")
+listedir = os.listdir("resultatsS52022")
 for i in listedir:   
-    nom_pdf = "resultatsSession2/%s"%i
+    nom_pdf = "resultatsS52022/%s"%i
     df = tabula.read_pdf(nom_pdf,lattice=True,pages = "all")
     UE = pickUE(nom_pdf)
     appendNoteToDb(df,cur,UE)
-
-listedir = os.listdir("resultatsSession2L3")
-for i in listedir:   
-    nom_pdf = "resultatsSession2L3/%s"%i
-    df = tabula.read_pdf(nom_pdf,lattice=True,pages = "all")
-    UE = pickUE(nom_pdf)
-    appendNoteToDb(df,cur,UE)
-    
-
+    appendNumEtuToDb(df,cur)
 
 
 

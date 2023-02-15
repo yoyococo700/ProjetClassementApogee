@@ -44,6 +44,10 @@ function drawColorS1(note,UE){
   return tab;
 }
 
+function essaiInjection(){
+  console.log("Injection");
+
+}
 
 function drawColorS2(note,UE){
   var note = findNoteS2(note,UE);

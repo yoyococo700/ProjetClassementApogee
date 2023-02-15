@@ -18,6 +18,7 @@ let port =8080;
 
 const express = require('express');
 var path = require('path');
+const { cookie } = require('express/lib/response');
 const app = express();
 
 app.set('view engine', 'pug');
@@ -32,8 +33,7 @@ function hasQueryParams(url) {
 }
 
 function isValide(resultats){
-    // return resultats.toString()!="";
-    return true;
+    return resultats.toString()!="";
 }
 
 function checkNumIntegrity(num){
@@ -45,7 +45,7 @@ function checkNumIntegrity(num){
 app.use('/public',express.static(path.join(__dirname, 'public')));
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`App running on port ${port}`)
   })
 
 app.get('/public/utils.js', function (request, response){
@@ -66,6 +66,7 @@ app.get('/public/utils.js', function (request, response){
         response.set("Bypass-Tunnel-Reminder");
         response.render('index',{});
         console.log("page acceuil");
+        console.log(cookieStore);
     }
 
     else{

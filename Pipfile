@@ -17,6 +17,7 @@ bs4 = "*"
 tabula-py = "*"
 pysqlite3 = "*"
 pypdf2 = "*"
+tabula = "*"
 
 [dev-packages]
 

@@ -87,14 +87,15 @@ def appendNoteToDb(df,cur,UE:str):
                 text=(i.loc[j][[1,2]].to_string())
                 num_etu = pickNumEtudiant(i.loc[j][0])
                 note = pickNote(text)
-                liste.append((UE,num_etu,note," ",ECTS))
+                if num_etu.find("min\rnote")==-1:
+                    liste.append((UE,num_etu,note," ",ECTS))
 
             except:
                 print("break")
                 break
             else:
                 j=j+1
-        #print(liste)
+        print(liste)
         cur.executemany(sql,liste)
 
 
@@ -115,6 +116,24 @@ for i in listedir:
 listedir = os.listdir("resultatsS1")
 for i in listedir:   
     nom_pdf = "resultatsS1/%s"%i
+    #print(nom_pdf)
+    df = tabula.read_pdf(nom_pdf,lattice=True,pages = "all")
+    UE = pickUE(nom_pdf)
+    appendNoteToDb(df,cur,UE)
+    appendNumEtuToDb(df,cur)
+
+listedir = os.listdir("resultatsS6")
+for i in listedir:   
+    nom_pdf = "resultatsS6/%s"%i
+    #print(nom_pdf)
+    df = tabula.read_pdf(nom_pdf,lattice=True,pages = "all")
+    UE = pickUE(nom_pdf)
+    appendNoteToDb(df,cur,UE)
+    appendNumEtuToDb(df,cur)
+
+listedir = os.listdir("resultatsS5")
+for i in listedir:   
+    nom_pdf = "resultatsS5/%s"%i
     #print(nom_pdf)
     df = tabula.read_pdf(nom_pdf,lattice=True,pages = "all")
     UE = pickUE(nom_pdf)
